@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="de" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yoga Praxiseinheit - Sportunterricht</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: {
+                            50: '#f4f7f4',
+                            100: '#e3eae3',
+                            200: '#c7d6c7',
+                            300: '#a3baa3',
+                            400: '#7b9a7b',
+                            500: '#5c7d5c',
+                            600: '#476347',
+                            700: '#394f39',
+                            800: '#2f412f',
+                            900: '#283728',
+                        },
+                        sand: {
+                            50: '#fdfbf7',
+                            100: '#f7f2e8',
+                            200: '#eee3cd',
+                            300: '#e2cfab',
+                            400: '#d4b784',
+                            500: '#c59f61',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c7d6c7; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #7b9a7b; }
+    </style>
+</head>
+<body class="bg-sand-50 text-gray-800 min-h-full flex flex-col antialiased selection:bg-sage-200 selection:text-sage-900">
+
+    <header class="bg-white/80 backdrop-blur-md border-b border-sage-100 sticky top-0 z-30 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 sm:h-20">
+                <!-- Logo / Brand -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-10 h-10 rounded-full bg-sage-500 flex items-center justify-center text-white shadow-md shadow-sage-200">
+                        <i class="fa-solid font-bold fa-spa text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl sm:text-2xl font-semibold tracking-tight text-sage-800">Yoga<span class="text-sage-500 font-light">Schule</span></span>
+                        <span class="block text-xs text-gray-400 font-medium tracking-wide hidden sm:block">Sportunterricht Praxiseinheit</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2 bg-sage-50/80 p-1.5 rounded-full border border-sage-100">
+                    <button id="nav-home" onclick="switchTab('home')" class="nav-btn px-4 py-2 rounded-full text-sm font-medium transition-all text-sage-700 hover:bg-white hover:shadow-sm">
+                        <i class="fa-solid fa-house mr-2"></i>Start
+                    </button>
+                    <button id="nav-library" onclick="switchTab('library')" class="nav-btn px-4 py-2 rounded-full text-sm font-medium transition-all text-sage-700 hover:bg-white hover:shadow-sm">
+                        <i class="fa-solid fa-book-open mr-2"></i>Übungen
+                    </button>
+                    <button id="nav-generator" onclick="switchTab('generator')" class="nav-btn px-4 py-2 rounded-full text-sm font-medium transition-all text-sage-700 hover:bg-white hover:shadow-sm">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Generator
+                    </button>
+                    <button id="nav-builder" onclick="switchTab('builder')" class="nav-btn px-4 py-2 rounded-full text-sm font-medium transition-all text-sage-700 hover:bg-white hover:shadow-sm">
+                        <i class="fa-solid fa-sliders mr-2"></i>Custom Builder
+                    </button>
+                </nav>
+
+                <!-- Action Button in Header -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <button onclick="openExerciseModal()" class="bg-sage-600 hover:bg-sage-700 text-white px-3 sm:px-4 py-2 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-medium shadow-sm transition-all flex items-center space-x-2 active:scale-95">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                        <span class="hidden xs:inline">Neue Übung</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Bottom Bar -->
+        <div class="md:hidden flex justify-around bg-white border-t border-sage-100 py-2 px-1">
+            <button onclick="switchTab('home')" class="mobile-nav-btn text-sage-700 flex flex-col items-center text-xs py-1 px-2 font-medium">
+                <i class="fa-solid fa-house text-lg mb-1"></i>Start
+            </button>
+            <button onclick="switchTab('library')" class="mobile-nav-btn text-sage-700 flex flex-col items-center text-xs py-1 px-2 font-medium">
+                <i class="fa-solid fa-book-open text-lg mb-1"></i>Übungen
+            </button>
+            <button onclick="switchTab('generator')" class="mobile-nav-btn text-sage-700 flex flex-col items-center text-xs py-1 px-2 font-medium">
+                <i class="fa-solid fa-wand-magic-sparkles text-lg mb-1"></i>Generator
+            </button>
+            <button onclick="switchTab('builder')" class="mobile-nav-btn text-sage-700 flex flex-col items-center text-xs py-1 px-2 font-medium">
+                <i class="fa-solid fa-sliders text-lg mb-1"></i>Builder
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- ================= SECTION 1: HOME ================= -->
+        <section id="sec-home" class="tab-content space-y-12">
+            <!-- Hero Banner -->
+            <div class="relative bg-gradient-to-br from-sage-700 via-sage-600 to-sage-800 text-white rounded-3xl p-8 sm:p-12 overflow-hidden shadow-xl">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-white text-[250px] pointer-events-none">
+                    <i class="fa-solid fa-spa"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl space-y-6">
+                    <span class="inline-block bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-sage-100">
+                        <i class="fa-solid fa-graduation-cap mr-1.5"></i> Für Schule & Sportunterricht
+                    </span>
+                    <h1 class="text-3xl sm:text-5xl font-bold tracking-tight leading-tight">
+                        Achtsamkeit & Kraft im Sportunterricht
+                    </h1>
+                    <p class="text-sage-100 text-base sm:text-lg leading-relaxed">
+                        Eine interaktive Plattform zur Erstellung, Verwaltung und Durchführung von Yoga-Praxiseinheiten. Gestalte eigene Übungen, erstelle automatische Workouts oder passe deine Stunden individuell an.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="switchTab('generator')" class="bg-sand-200 hover:bg-sand-300 text-sage-900 font-semibold px-6 py-3 rounded-2xl transition-all shadow-md flex items-center">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2 text-sage-700"></i> Workout Generieren
+                        </button>
+                        <button onclick="openExerciseModal()" class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 font-medium px-6 py-3 rounded-2xl transition-all flex items-center">
+                            <i class="fa-solid fa-plus mr-2"></i> Übung Hinzufügen
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Quick Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-sage-100 shadow-sm hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-sage-100 text-sage-700 rounded-xl flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-folder-plus"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Eigene Übungen</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Ergänze die Bibliothek mit eigenen Asanas, Bildern oder Videos (per Link oder Upload) und nutze sie sofort in allen Einheiten.
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-sage-100 shadow-sm hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-sage-100 text-sage-700 rounded-xl flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Live Player & Timer</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Führe Stunden mit dem integrierten Timer, akustischen Signalen, Übungsvorschau und Bild/Video-Umschaltung reibungslos durch.
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-sage-100 shadow-sm hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-sage-100 text-sage-700 rounded-xl flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Custom Workout Builder</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Stelle individuelle Stunden zusammen, passe Haltezeiten an und passe den Ablauf flexibel per Drag & Drop an.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: LIBRARY ================= -->
+        <section id="sec-library" class="tab-content hidden space-y-6">
+            <!-- Header & Action Bar -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-sage-100 shadow-sm">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Übungsbibliothek</h2>
+                    <p class="text-sm text-gray-500">Verwalte, erstelle und filtere Asanas für den Unterricht.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="openExerciseModal()" class="bg-sage-600 hover:bg-sage-700 text-white font-medium px-4 py-2.5 rounded-xl text-sm transition-all shadow-sm flex items-center">
+                        <i class="fa-solid fa-plus mr-2"></i> Neue Übung hinzufügen
+                    </button>
+                    <button onclick="resetToDefaults()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-3 py-2.5 rounded-xl text-sm transition-all flex items-center" title="Auf Originalzustand zurücksetzen">
+                        <i class="fa-solid fa-rotate-left mr-1.5"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Options -->
+            <div class="bg-white p-4 rounded-2xl border border-sage-100 shadow-sm space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <!-- Search -->
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-sm"></i>
+                        <input type="text" id="search-input" oninput="filterExercises()" placeholder="Übung suchen..." class="w-full pl-9 pr-3 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                    </div>
+                    <!-- Category Filter -->
+                    <select id="filter-category" onchange="filterExercises()" class="w-full py-2 px-3 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                        <option value="">Alle Kategorien</option>
+                        <option value="Aufwärmen">Aufwärmen</option>
+                        <option value="Stehend">Stehend</option>
+                        <option value="Rückbeuge">Rückbeuge</option>
+                        <option value="Vorbeuge">Vorbeuge</option>
+                        <option value="Hüftöffnung">Hüftöffnung</option>
+                        <option value="Drehung">Drehung</option>
+                        <option value="Liegend">Liegend</option>
+                        <option value="Entspannung">Entspannung</option>
+                    </select>
+                    <!-- Level Filter -->
+                    <select id="filter-level" onchange="filterExercises()" class="w-full py-2 px-3 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                        <option value="">Alle Level</option>
+                        <option value="Anfänger">Anfänger</option>
+                        <option value="Mittel">Mittel</option>
+                        <option value="Fortgeschritten">Fortgeschritten</option>
+                    </select>
+                    <!-- Focus Filter -->
+                    <select id="filter-focus" onchange="filterExercises()" class="w-full py-2 px-3 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                        <option value="">Alle Schwerpunkte</option>
+                        <option value="Entspannung">Entspannung</option>
+                        <option value="Beweglichkeit">Beweglichkeit</option>
+                        <option value="Kraft">Kraft</option>
+                        <option value="Gleichgewicht">Gleichgewicht</option>
+                        <option value="Ganzkörper">Ganzkörper</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Exercises Grid Container -->
+            <div id="exercises-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically Rendered Cards -->
+            </div>
+        </section>
+
+        <!-- ================= SECTION 3: GENERATOR ================= -->
+        <section id="sec-generator" class="tab-content hidden max-w-3xl mx-auto space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-sage-100 shadow-sm space-y-6">
+                <div class="text-center space-y-2">
+                    <div class="w-12 h-12 bg-sage-100 text-sage-700 rounded-2xl flex items-center justify-center text-xl mx-auto">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900">Workout Generator</h2>
+                    <p class="text-sm text-gray-500">Erstelle automatisch eine ausgewogene Praxiseinheit für die Klasse.</p>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Gewünschte Dauer (Minuten)</label>
+                        <select id="gen-duration" class="w-full py-2.5 px-3.5 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                            <option value="5">ca. 5 Minuten (Kurze Pause)</option>
+                            <option value="10" selected>ca. 10 Minuten (Kompakt)</option>
+                            <option value="15">ca. 15 Minuten (Standard Schulstunde)</option>
+                            <option value="20">ca. 20 Minuten (Intensiv)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Schwierigkeitsgrad</label>
+                        <select id="gen-level" class="w-full py-2.5 px-3.5 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                            <option value="alle">Alle Level einbeziehen</option>
+                            <option value="Anfänger" selected>Anfänger (Empfohlen)</option>
+                            <option value="Mittel">Mittelstufe</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Schwerpunkt / Fokus</label>
+                        <select id="gen-focus" class="w-full py-2.5 px-3.5 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                            <option value="alle">Ausgewogen (Gemischt)</option>
+                            <option value="Entspannung">Entspannung & Dehnung</option>
+                            <option value="Kraft">Kraft & Haltung</option>
+                            <option value="Gleichgewicht">Gleichgewicht & Konzentration</option>
+                        </select>
+                    </div>
+
+                    <button onclick="generateWorkout()" class="w-full bg-sage-600 hover:bg-sage-700 text-white font-semibold py-3.5 rounded-2xl transition-all shadow-md flex items-center justify-center space-x-2 text-base">
+                        <i class="fa-solid fa-play"></i>
+                        <span>Workout Jetzt Generieren & Starten</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 4: BUILDER ================= -->
+        <section id="sec-builder" class="tab-content hidden space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-sage-100 shadow-sm">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Custom Workout Builder</h2>
+                    <p class="text-sm text-gray-500">Wähle Übungen aus, passe Dauer an und erstelle deine eigene Sequenz.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span id="builder-total-time" class="text-sm font-semibold bg-sage-100 text-sage-800 px-3 py-1.5 rounded-xl">
+                        Gesamtdauer: 0 Min.
+                    </span>
+                    <button onclick="startCustomWorkout()" class="bg-sage-600 hover:bg-sage-700 text-white font-medium px-4 py-2 rounded-xl text-sm transition-all shadow-sm flex items-center">
+                        <i class="fa-solid fa-circle-play mr-2"></i> Workout Starten
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Left: Available Exercises -->
+                <div class="bg-white p-5 rounded-2xl border border-sage-100 shadow-sm space-y-4">
+                    <h3 class="font-semibold text-gray-800 flex items-center justify-between">
+                        <span>Verfügbare Übungen</span>
+                        <span class="text-xs text-gray-400 font-normal">Klick zum Hinzufügen</span>
+                    </h3>
+                    <div id="builder-available-list" class="space-y-2 max-h-[500px] overflow-y-auto custom-scrollbar pr-1">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+
+                <!-- Right: Selected Workout Sequence -->
+                <div class="bg-white p-5 rounded-2xl border border-sage-100 shadow-sm space-y-4">
+                    <h3 class="font-semibold text-gray-800 flex items-center justify-between">
+                        <span>Deine Ausgewählte Sequenz</span>
+                        <button onclick="clearCustomWorkout()" class="text-xs text-red-500 hover:text-red-700">Alle entfernen</button>
+                    </h3>
+                    <div id="builder-selected-list" class="space-y-2 max-h-[500px] overflow-y-auto custom-scrollbar pr-1">
+                        <!-- Selected list dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 5: LIVE PLAYER ================= -->
+        <section id="sec-player" class="tab-content hidden max-w-4xl mx-auto space-y-6">
+            <div class="bg-white rounded-3xl border border-sage-100 shadow-xl overflow-hidden">
+                <!-- Player Header Bar -->
+                <div class="bg-sage-800 text-white p-4 sm:p-6 flex justify-between items-center">
+                    <div>
+                        <span class="text-xs text-sage-200 uppercase tracking-wider font-semibold">Live Yoga Praxis</span>
+                        <h2 id="player-title" class="text-lg sm:text-2xl font-bold">Uebung</h2>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="exitPlayer()" class="bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all">
+                            <i class="fa-solid fa-xmark mr-1"></i> Beenden
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Player Display Area -->
+                <div class="p-4 sm:p-6 space-y-6">
+                    <!-- Media Area (Image/Video) -->
+                    <div class="relative bg-black rounded-2xl overflow-hidden aspect-video max-h-[380px] flex items-center justify-center group">
+                        <img id="player-img" class="w-full h-full object-cover" src="" alt="Übungsbild">
+                        <iframe id="player-video" class="w-full h-full hidden" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <video id="player-local-video" class="w-full h-full hidden" controls></video>
+
+                        <!-- Media Toggle Button -->
+                        <button onclick="togglePlayerMedia()" class="absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 text-white text-xs px-3 py-1.5 rounded-xl backdrop-blur-md transition-all">
+                            <i class="fa-solid fa-repeat mr-1"></i> <span id="media-toggle-label">Video Zeigen</span>
+                        </button>
+                    </div>
+
+                    <!-- Timer Controls & Progress -->
+                    <div class="bg-sage-50 rounded-2xl p-6 text-center space-y-4 border border-sage-100">
+                        <div class="flex items-center justify-center space-x-6">
+                            <button onclick="prevExercise()" class="w-12 h-12 rounded-2xl bg-white text-sage-700 hover:bg-sage-100 border border-sage-200 flex items-center justify-center text-lg shadow-sm transition-all active:scale-95">
+                                <i class="fa-solid fa-backward"></i>
+                            </button>
+                            <div>
+                                <div id="player-timer" class="text-5xl font-bold text-sage-800 tracking-tight font-mono">00:30</div>
+                                <span class="text-xs text-sage-600 font-medium">Verbleibende Zeit</span>
+                            </div>
+                            <button onclick="togglePlayPause()" id="btn-play-pause" class="w-16 h-16 rounded-2xl bg-sage-600 text-white hover:bg-sage-700 flex items-center justify-center text-2xl shadow-md transition-all active:scale-95">
+                                <i class="fa-solid fa-pause"></i>
+                            </button>
+                            <button onclick="nextExercise()" class="w-12 h-12 rounded-2xl bg-white text-sage-700 hover:bg-sage-100 border border-sage-200 flex items-center justify-center text-lg shadow-sm transition-all active:scale-95">
+                                <i class="fa-solid fa-forward"></i>
+                            </button>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-sage-200 rounded-full h-2.5 overflow-hidden">
+                            <div id="player-progress-bar" class="bg-sage-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+
+                        <div class="flex justify-between text-xs text-sage-600 font-medium px-1">
+                            <span id="player-step-info">Übung 1 von 5</span>
+                            <span id="player-next-preview">Nächste: -</span>
+                        </div>
+                    </div>
+
+                    <!-- Exercise Instructions & Guidance -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-2xl border border-sage-100 space-y-2">
+                            <h4 class="font-semibold text-xs uppercase tracking-wider text-sage-600">Schritt-für-Schritt</h4>
+                            <p id="player-instructions" class="text-sm text-gray-700 leading-relaxed"></p>
+                        </div>
+                        <div class="bg-amber-50/60 p-4 rounded-2xl border border-amber-200/60 space-y-2">
+                            <h4 class="font-semibold text-xs uppercase tracking-wider text-amber-700">Wichtige Hinweise & Dos/Don'ts</h4>
+                            <p id="player-tips" class="text-sm text-amber-900 leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL: ADD / EDIT EXERCISE -->
+    <div id="exercise-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl border border-sage-100">
+            <!-- Modal Header -->
+            <div class="bg-sage-50 px-6 py-4 border-b border-sage-100 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur-md z-10">
+                <h3 id="modal-title" class="text-xl font-bold text-sage-900">Neue Übung hinzufügen</h3>
+                <button onclick="closeExerciseModal()" class="text-gray-400 hover:text-gray-600 w-8 h-8 rounded-full flex items-center justify-center hover:bg-sage-100 transition-all">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Form -->
+            <form id="exercise-form" onsubmit="handleFormSubmit(event)" class="p-6 space-y-4">
+                <input type="hidden" id="form-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Name (Deutsch) *</label>
+                        <input type="text" id="form-title" required placeholder="z.B. Sonnengruß A" class="w-full px-3.5 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Sanskrit Name</label>
+                        <input type="text" id="form-sanskrit" placeholder="z.B. Surya Namaskar A" class="w-full px-3.5 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Kategorie *</label>
+                        <select id="form-category" required class="w-full px-3 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                            <option value="Aufwärmen">Aufwärmen</option>
+                            <option value="Stehend">Stehend</option>
+                            <option value="Rückbeuge">Rückbeuge</option>
+                            <option value="Vorbeuge">Vorbeuge</option>
+                            <option value="Hüftöffnung">Hüftöffnung</option>
+                            <option value="Drehung">Drehung</option>
+                            <option value="Liegend">Liegend</option>
+                            <option value="Entspannung">Entspannung</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Schwierigkeitsgrad *</label>
+                        <select id="form-level" required class="w-full px-3 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                            <option value="Anfänger">Anfänger</option>
+                            <option value="Mittel">Mittel</option>
+                            <option value="Fortgeschritten">Fortgeschritten</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Schwerpunkt *</label>
+                        <select id="form-focus" required class="w-full px-3 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                            <option value="Entspannung">Entspannung</option>
+                            <option value="Beweglichkeit">Beweglichkeit</option>
+                            <option value="Kraft">Kraft</option>
+                            <option value="Gleichgewicht">Gleichgewicht</option>
+                            <option value="Ganzkörper">Ganzkörper</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Empfohlene Haltezeit (Sekunden) *</label>
+                    <input type="number" id="form-duration" min="10" max="600" value="30" required class="w-full px-3.5 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Schritt-für-Schritt Anleitung *</label>
+                    <textarea id="form-instructions" rows="3" required placeholder="Erkläre die Schritte zur Ausführung..." class="w-full px-3.5 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Wichtige Hinweise / Dos & Don'ts</label>
+                    <textarea id="form-tips" rows="2" placeholder="Worauf ist zu achten? Welcher Rücken sollte vermieden werden?" class="w-full px-3.5 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400"></textarea>
+                </div>
+
+                <!-- Media Upload / Link Options -->
+                <div class="border-t border-sage-100 pt-4 space-y-4">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-sage-700">Medien (Bild & Video)</h4>
+                    
+                    <!-- Image Input -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-gray-700">Bild-Quelle</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <input type="text" id="form-img-url" placeholder="Bild-URL eingeben..." class="px-3.5 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                            <input type="file" id="form-img-file" accept="image/*" onchange="handleImageFileUpload(event)" class="text-xs text-gray-500 border border-sage-200 rounded-xl p-1.5 bg-sage-50/50">
+                        </div>
+                    </div>
+
+                    <!-- Video Input -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-gray-700">Video-Quelle (YouTube/Vimeo oder Upload)</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <input type="text" id="form-video-url" placeholder="YouTube/Vimeo Embed URL..." class="px-3.5 py-2 bg-sage-50/50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-400">
+                            <input type="file" id="form-video-file" accept="video/*" onchange="handleVideoFileUpload(event)" class="text-xs text-gray-500 border border-sage-200 rounded-xl p-1.5 bg-sage-50/50">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Buttons -->
+                <div class="border-t border-sage-100 pt-4 flex justify-end space-x-3">
+                    <button type="button" onclick="closeExerciseModal()" class="px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-medium text-sm hover:bg-gray-50 transition-all">
+                        Abbrechen
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-sage-600 hover:bg-sage-700 text-white font-semibold text-sm transition-all shadow-md">
+                        Speichern
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-message" class="fixed bottom-5 right-5 bg-sage-800 text-white px-4 py-3 rounded-2xl shadow-xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center space-x-2 text-sm font-medium">
+        <i class="fa-solid fa-circle-check text-sage-300"></i>
+        <span id="toast-text">Aktion erfolgreich</span>
+    </div>
+
+    <script>
+        // Initial Default Exercises (All 12 Required Exercises)
+        const DEFAULT_EXERCISES = [
+            {
+                id: "ex-1",
+                title: "Bergposition",
+                sanskrit: "Tadasana",
+                category: "Stehend",
+                level: "Anfänger",
+                focus: "Ganzkörper",
+                duration: 30,
+                instructions: "Stehe aufrecht, Füße hüftbreit geerdet. Aktiviere die Oberschenkel, ziehe den Bauchnabel leicht nach innen. Schultern entspannt nach hinten-unten sinken lassen.",
+                tips: "Gleichmäßige Gewichtsverteilung auf beide Füße achten. Kopf in Verlängerung der Wirbelsäule.",
+                img: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/2HTvZp5rPrg"
+            },
+            {
+                id: "ex-2",
+                title: "Herabschauender Hund",
+                sanskrit: "Adho Mukha Svanasana",
+                category: "Aufwärmen",
+                level: "Anfänger",
+                focus: "Beweglichkeit",
+                duration: 45,
+                instructions: "Hände schulterbreit aufsetzen, Hüfte weit nach oben und hinten schieben. Rücken lang strecken, Fersen sanft Richtung Boden ziehen.",
+                tips: "Knie bei Bedarf leicht beugen, um die Wirbelsäule lang zu halten.",
+                img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/e1MdeXpS1tE"
+            },
+            {
+                id: "ex-3",
+                title: "Krieger I",
+                sanskrit: "Virabhadrasana I",
+                category: "Stehend",
+                level: "Anfänger",
+                focus: "Kraft",
+                duration: 40,
+                instructions: "Einen großen Schritt nach hinten machen. Vorderes Knie im 90-Grad-Winkel beugen, hinterer Fuß leicht eingedreht. Arme lang nach oben strecken.",
+                tips: "Hüfte parallel nach vorne ausrichten, nicht ins Hohlkreuz fallen.",
+                img: "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/55mYbdB8K3U"
+            },
+            {
+                id: "ex-4",
+                title: "Krieger II",
+                sanskrit: "Virabhadrasana II",
+                category: "Stehend",
+                level: "Anfänger",
+                focus: "Kraft",
+                duration: 40,
+                instructions: "Breiter Stand, vorderes Knie beugen. Arme waagerecht auf Schulterhöhe ausstrecken. Blick über die vordere Hand richten.",
+                tips: "Vorderes Knie direkt über dem Fußgelenk halten, nicht nach innen kippen.",
+                img: "https://images.unsplash.com/photo-1510894347713-da3ed8f4f92d?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/4pLUleLfiZ4"
+            },
+            {
+                id: "ex-5",
+                title: "Baum",
+                sanskrit: "Vrksasana",
+                category: "Stehend",
+                level: "Anfänger",
+                focus: "Gleichgewicht",
+                duration: 35,
+                instructions: "Gewicht auf ein Bein verlagern. Den anderen Fuß an die Wade oder den Oberschenkel legen. Hände vor dem Herzen zusammenführen.",
+                tips: "Fuß niemals direkt an das Kniegelenk stellen. Einen festen Blickpunkt fokussieren.",
+                img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/xJ86p4vM3rE"
+            },
+            {
+                id: "ex-6",
+                title: "Brücke",
+                sanskrit: "Setu Bandhasana",
+                category: "Rückbeuge",
+                level: "Mittel",
+                focus: "Kraft",
+                duration: 30,
+                instructions: "Rückenlage, Knie beugen, Füße hüftbreit nah am Gesäß aufstellen. Becken weit nach oben anheben und Brust öffnen.",
+                tips: "Knie parallel halten, nicht nach außen fallen lassen.",
+                img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/3vUe8_1h4Lg"
+            },
+            {
+                id: "ex-7",
+                title: "Schmetterling",
+                sanskrit: "Baddha Konasana",
+                category: "Hüftöffnung",
+                level: "Anfänger",
+                focus: "Beweglichkeit",
+                duration: 45,
+                instructions: "Aufrecht sitzen, Fußsohlen aneinanderlegen. Knie sanft nach außen sinken lassen. Wirbelsäule lang halten.",
+                tips: "Bei Bedarf Knie mit Blöcken oder Kissen unterstützen.",
+                img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/0X76qR9D65E"
+            },
+            {
+                id: "ex-8",
+                title: "Sitzende Vorbeuge",
+                sanskrit: "Paschimottanasana",
+                category: "Vorbeuge",
+                level: "Mittel",
+                focus: "Beweglichkeit",
+                duration: 45,
+                instructions: "Mit gestreckten Beinen aufrecht sitzen. Einatmen Arme heben, Ausatmen mit langem Rücken nach vorne über die Beine beugen.",
+                tips: "Rücken lang lassen, nicht mit Gewalt den Kopf zum Knie erzwingen.",
+                img: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/w75UuG_3w0s"
+            },
+            {
+                id: "ex-9",
+                title: "Sphinx",
+                sanskrit: "Salamba Bhujangasana",
+                category: "Rückbeuge",
+                level: "Anfänger",
+                focus: "Entspannung",
+                duration: 40,
+                instructions: "Bauchlage, Unterarme aufstützen mit Ellenbogen unter den Schultern. Brustkorb sanft anheben.",
+                tips: "Gesäß entspannt lassen, Nacken in Verlängerung der Wirbelsäule.",
+                img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/7P9P4607X6Q"
+            },
+            {
+                id: "ex-10",
+                title: "Kobra",
+                sanskrit: "Bhujangasana",
+                category: "Rückbeuge",
+                level: "Mittel",
+                focus: "Kraft",
+                duration: 30,
+                instructions: "Bauchlage, Hände unter die Schultern. Aus der Kraft des Rückens den Brustkorb sanft anheben.",
+                tips: "Kein starker Druck auf die Hände. Schultern weglassen von den Ohren.",
+                img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/34S2uB1C1_k"
+            },
+            {
+                id: "ex-11",
+                title: "Drehsitz",
+                sanskrit: "Ardha Matsyendrasana",
+                category: "Drehung",
+                level: "Mittel",
+                focus: "Beweglichkeit",
+                duration: 40,
+                instructions: "Aufrecht sitzen, ein Bein über das andere stellen. Oberkörper zur Seite des aufgestellten Beins aufdrehen.",
+                tips: "Mit jeder Einatmung aufrichten, mit jeder Ausatmung sanft weiter drehen.",
+                img: "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/2m9d-3Y97M8"
+            },
+            {
+                id: "ex-12",
+                title: "Endentspannung",
+                sanskrit: "Savasana",
+                category: "Entspannung",
+                level: "Anfänger",
+                focus: "Entspannung",
+                duration: 120,
+                instructions: "Flach auf den Rücken legen, Füße hüftbreit entspannt. Hände neben den Körper legen, Handflächen nach oben.",
+                tips: "Augen schließen, tief und natürlich atmen. Vollkommen loslassen.",
+                img: "https://images.unsplash.com/photo-1510894347713-da3ed8f4f92d?auto=format&fit=crop&w=800&q=80",
+                video: "https://www.youtube.com/embed/1VYlOKud_2w"
+            }
+        ];
+
+        // State Storage
+        let exercises = [];
+        let customWorkout = [];
+        let playerPlaylist = [];
+        let playerCurrentIndex = 0;
+        let playerTimerInterval = null;
+        let playerSecondsLeft = 0;
+        let isPlayerPaused = false;
+        let uploadedImgBase64 = null;
+        let uploadedVideoBase64 = null;
+
+        // Sound Audio Effects (Web Audio API synthesis for zero external dependency)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playChimeSound() {
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.5); // A5
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.2);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 1.2);
+            } catch (e) {
+                console.log('Audio notification fallback');
+            }
+        }
+
+        // Initialize App State
+        window.onload = function() {
+            loadExercisesFromStorage();
+            renderLibrary();
+            renderBuilderLists();
+            switchTab('home');
+        };
+
+        // Storage Management
+        function loadExercisesFromStorage() {
+            const stored = localStorage.getItem('yoga_exercises');
+            if (stored) {
+                try {
+                    exercises = JSON.parse(stored);
+                } catch(e) {
+                    exercises = [...DEFAULT_EXERCISES];
+                }
+            } else {
+                exercises = [...DEFAULT_EXERCISES];
+                saveExercisesToStorage();
+            }
+        }
+
+        function saveExercisesToStorage() {
+            localStorage.setItem('yoga_exercises', JSON.stringify(exercises));
+        }
+
+        function resetToDefaults() {
+            if (confirm("Möchtest du wirklich alle Übungen auf die Standard-Sammlung zurücksetzen? Eigen erstelle Übungen werden gelöscht.")) {
+                exercises = [...DEFAULT_EXERCISES];
+                saveExercisesToStorage();
+                renderLibrary();
+                renderBuilderLists();
+                showToast("Übungen zurückgesetzt");
+            }
+        }
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`sec-${tabId}`).classList.remove('hidden');
+
+            // Update Header Highlight
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'shadow-sm', 'text-sage-900', 'font-semibold');
+            });
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) activeBtn.classList.add('bg-white', 'shadow-sm', 'text-sage-900', 'font-semibold');
+
+            if (tabId === 'library') renderLibrary();
+            if (tabId === 'builder') renderBuilderLists();
+        }
+
+        // Render Exercise Cards Library
+        function renderLibrary() {
+            const grid = document.getElementById('exercises-grid');
+            grid.innerHTML = '';
+
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const category = document.getElementById('filter-category').value;
+            const level = document.getElementById('filter-level').value;
+            const focus = document.getElementById('filter-focus').value;
+
+            const filtered = exercises.filter(ex => {
+                const matchSearch = ex.title.toLowerCase().includes(search) || (ex.sanskrit && ex.sanskrit.toLowerCase().includes(search));
+                const matchCategory = !category || ex.category === category;
+                const matchLevel = !level || ex.level === level;
+                const matchFocus = !focus || ex.focus === focus;
+                return matchSearch && matchCategory && matchLevel && matchFocus;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-sage-100">
+                        <i class="fa-solid fa-ban text-3xl text-gray-300 mb-3 block"></i>
+                        <p class="text-gray-500 font-medium">Keine passenden Übungen gefunden.</p>
+                        <button onclick="openExerciseModal()" class="mt-3 text-sm text-sage-600 font-semibold hover:underline">+ Erste eigene Übung anlegen</button>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(ex => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-sage-100 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative aspect-video bg-gray-100 overflow-hidden">
+                            <img src="${ex.img || 'https://placehold.co/600x400/e3eae3/2f412f?text=Yoga'}" class="w-full h-full object-cover" alt="${ex.title}">
+                            <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-semibold text-sage-800">
+                                ${ex.category}
+                            </div>
+                            <div class="absolute top-3 right-3 flex space-x-1">
+                                <button onclick="editExercise('${ex.id}')" class="w-8 h-8 rounded-full bg-white/90 hover:bg-white text-sage-700 shadow flex items-center justify-center text-xs transition-all" title="Bearbeiten">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button onclick="deleteExercise('${ex.id}')" class="w-8 h-8 rounded-full bg-white/90 hover:bg-red-50 text-red-600 shadow flex items-center justify-center text-xs transition-all" title="Löschen">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-5 space-y-3">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900">${ex.title}</h3>
+                                ${ex.sanskrit ? `<p class="text-xs text-sage-600 italic">${ex.sanskrit}</p>` : ''}
+                            </div>
+                            <div class="flex flex-wrap gap-1.5 text-xs">
+                                <span class="bg-sage-50 text-sage-700 px-2 py-0.5 rounded-md font-medium border border-sage-100">${ex.level}</span>
+                                <span class="bg-sand-100 text-sand-800 px-2 py-0.5 rounded-md font-medium border border-sand-200">${ex.focus}</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md font-medium"><i class="fa-regular fa-clock mr-1"></i>${ex.duration}s</span>
+                            </div>
+                            <p class="text-xs text-gray-600 line-clamp-3 leading-relaxed">${ex.instructions}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        <button onclick="startSingleExercise('${ex.id}')" class="w-full bg-sage-50 hover:bg-sage-100 text-sage-800 font-semibold py-2 rounded-xl text-xs border border-sage-200 transition-all flex items-center justify-center">
+                            <i class="fa-solid fa-play mr-1.5"></i> Jetzt Einzeleinheit starten
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterExercises() {
+            renderLibrary();
+        }
+
+        function openExerciseModal(editId = null) {
+            uploadedImgBase64 = null;
+            uploadedVideoBase64 = null;
+            const modal = document.getElementById('exercise-modal');
+            const form = document.getElementById('exercise-form');
+            form.reset();
+
+            if (editId) {
+                const ex = exercises.find(e => e.id === editId);
+                if (ex) {
+                    document.getElementById('modal-title').innerText = "Übung bearbeiten";
+                    document.getElementById('form-id').value = ex.id;
+                    document.getElementById('form-title').value = ex.title;
+                    document.getElementById('form-sanskrit').value = ex.sanskrit || '';
+                    document.getElementById('form-category').value = ex.category;
+                    document.getElementById('form-level').value = ex.level;
+                    document.getElementById('form-focus').value = ex.focus;
+                    document.getElementById('form-duration').value = ex.duration;
+                    document.getElementById('form-instructions').value = ex.instructions;
+                    document.getElementById('form-tips').value = ex.tips || '';
+                    document.getElementById('form-img-url').value = ex.img || '';
+                    document.getElementById('form-video-url').value = ex.video || '';
+                }
+            } else {
+                document.getElementById('modal-title').innerText = "Neue Übung hinzufügen";
+                document.getElementById('form-id').value = '';
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeExerciseModal() {
+            document.getElementById('exercise-modal').classList.add('hidden');
+        }
+
+        function handleImageFileUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    uploadedImgBase64 = evt.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleVideoFileUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    uploadedVideoBase64 = evt.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('form-id').value || 'ex-' + Date.now();
+            const title = document.getElementById('form-title').value.trim();
+            const sanskrit = document.getElementById('form-sanskrit').value.trim();
+            const category = document.getElementById('form-category').value;
+            const level = document.getElementById('form-level').value;
+            const focus = document.getElementById('form-focus').value;
+            const duration = parseInt(document.getElementById('form-duration').value, 10) || 30;
+            const instructions = document.getElementById('form-instructions').value.trim();
+            const tips = document.getElementById('form-tips').value.trim();
+
+            let img = uploadedImgBase64 || document.getElementById('form-img-url').value.trim() || 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80';
+            let video = uploadedVideoBase64 || document.getElementById('form-video-url').value.trim() || '';
+
+            const newEx = { id, title, sanskrit, category, level, focus, duration, instructions, tips, img, video };
+
+            const existingIndex = exercises.findIndex(ex => ex.id === id);
+            if (existingIndex >= 0) {
+                exercises[existingIndex] = newEx;
+                showToast("Übung aktualisiert");
+            } else {
+                exercises.unshift(newEx);
+                showToast("Neue Übung erstellt");
+            }
+
+            saveExercisesToStorage();
+            closeExerciseModal();
+            renderLibrary();
+            renderBuilderLists();
+        }
+
+        function editExercise(id) {
+            openExerciseModal(id);
+        }
+
+        function deleteExercise(id) {
+            if (confirm("Möchtest du diese Übung wirklich löschen?")) {
+                exercises = exercises.filter(ex => ex.id !== id);
+                customWorkout = customWorkout.filter(ex => ex.id !== id);
+                saveExercisesToStorage();
+                renderLibrary();
+                renderBuilderLists();
+                showToast("Übung gelöscht");
+            }
+        }
+
+        function renderBuilderLists() {
+            const availList = document.getElementById('builder-available-list');
+            const selectList = document.getElementById('builder-selected-list');
+
+            availList.innerHTML = '';
+            selectList.innerHTML = '';
+
+            exercises.forEach(ex => {
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between p-3 bg-sage-50/50 hover:bg-sage-100/60 rounded-xl border border-sage-100 transition-all cursor-pointer";
+                item.onclick = () => addToCustomWorkout(ex);
+                item.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <img src="${ex.img}" class="w-10 h-10 rounded-lg object-cover">
+                        <div>
+                            <span class="text-sm font-semibold text-gray-800 block">${ex.title}</span>
+                            <span class="text-xs text-gray-500">${ex.category} • ${ex.duration}s</span>
+                        </div>
+                    </div>
+                    <button class="w-7 h-7 rounded-full bg-white text-sage-700 flex items-center justify-center text-xs shadow-sm hover:bg-sage-600 hover:text-white transition-all">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                `;
+                availList.appendChild(item);
+            });
+
+            if (customWorkout.length === 0) {
+                selectList.innerHTML = `
+                    <div class="text-center py-8 text-xs text-gray-400">
+                        Noch keine Übungen ausgewählt. Klicke links auf eine Übung.
+                    </div>
+                `;
+            } else {
+                customWorkout.forEach((ex, idx) => {
+                    const item = document.createElement('div');
+                    item.className = "flex items-center justify-between p-3 bg-white rounded-xl border border-sage-200 shadow-sm";
+                    item.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <span class="text-xs font-bold text-sage-600 w-4">${idx + 1}.</span>
+                            <div>
+                                <span class="text-sm font-semibold text-gray-800 block">${ex.title}</span>
+                                <div class="flex items-center space-x-2 mt-0.5">
+                                    <input type="number" value="${ex.duration}" min="10" max="600" onchange="updateCustomDuration(${idx}, this.value)" class="w-16 px-1.5 py-0.5 text-xs bg-sage-50 border border-sage-200 rounded text-center font-medium">
+                                    <span class="text-xs text-gray-400">Sek.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            ${idx > 0 ? `<button onclick="moveCustomItem(${idx}, -1)" class="p-1 text-gray-400 hover:text-sage-700 text-xs"><i class="fa-solid fa-arrow-up"></i></button>` : ''}
+                            ${idx < customWorkout.length - 1 ? `<button onclick="moveCustomItem(${idx}, 1)" class="p-1 text-gray-400 hover:text-sage-700 text-xs"><i class="fa-solid fa-arrow-down"></i></button>` : ''}
+                            <button onclick="removeFromCustomWorkout(${idx})" class="p-1 text-red-400 hover:text-red-600 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    `;
+                    selectList.appendChild(item);
+                });
+            }
+
+            // Update Total Duration
+            const totalSec = customWorkout.reduce((sum, item) => sum + item.duration, 0);
+            const mins = Math.floor(totalSec / 60);
+            document.getElementById('builder-total-time').innerText = `Gesamtdauer: ${mins} Min. ${totalSec % 60} Sek.`;
+        }
+
+        function addToCustomWorkout(ex) {
+            customWorkout.push({ ...ex });
+            renderBuilderLists();
+        }
+
+        function removeFromCustomWorkout(idx) {
+            customWorkout.splice(idx, 1);
+            renderBuilderLists();
+        }
+
+        function updateCustomDuration(idx, val) {
+            const parsed = parseInt(val, 10);
+            if (parsed > 0) {
+                customWorkout[idx].duration = parsed;
+                renderBuilderLists();
+            }
+        }
+
+        function moveCustomItem(idx, direction) {
+            const temp = customWorkout[idx];
+            customWorkout[idx] = customWorkout[idx + direction];
+            customWorkout[idx + direction] = temp;
+            renderBuilderLists();
+        }
+
+        function clearCustomWorkout() {
+            customWorkout = [];
+            renderBuilderLists();
+        }
+
+        function startCustomWorkout() {
+            if (customWorkout.length === 0) {
+                alert("Bitte wähle zuerst mindestens eine Übung aus!");
+                return;
+            }
+            startPlayerPlaylist([...customWorkout]);
+        }
+
+        function generateWorkout() {
+            const durTargetMins = parseInt(document.getElementById('gen-duration').value, 10);
+            const level = document.getElementById('gen-level').value;
+            const focus = document.getElementById('gen-focus').value;
+
+            let pool = exercises.filter(ex => {
+                const matchLevel = level === 'alle' || ex.level === level;
+                const matchFocus = focus === 'alle' || ex.focus === focus;
+                return matchLevel && matchFocus;
+            });
+
+            if (pool.length === 0) pool = [...exercises];
+
+            // Target seconds calculation
+            const targetSec = durTargetMins * 60;
+            let currentSec = 0;
+            let generated = [];
+
+            // Shuffle pool
+            const shuffled = [...pool].sort(() => Math.random() - 0.5);
+
+            for (let item of shuffled) {
+                if (currentSec + item.duration <= targetSec + 30) {
+                    generated.push({ ...item });
+                    currentSec += item.duration;
+                }
+            }
+
+            if (generated.length === 0 && exercises.length > 0) {
+                generated.push({ ...exercises[0] });
+            }
+
+            startPlayerPlaylist(generated);
+        }
+
+        function startSingleExercise(id) {
+            const ex = exercises.find(e => e.id === id);
+            if (ex) {
+                startPlayerPlaylist([{ ...ex }]);
+            }
+        }
+
+        function startPlayerPlaylist(playlist) {
+            playerPlaylist = playlist;
+            playerCurrentIndex = 0;
+            switchTab('player');
+            loadPlayerCurrentExercise();
+        }
+
+        function loadPlayerCurrentExercise() {
+            clearInterval(playerTimerInterval);
+            const ex = playerPlaylist[playerCurrentIndex];
+            if (!ex) return;
+
+            document.getElementById('player-title').innerText = ex.title;
+            document.getElementById('player-instructions').innerText = ex.instructions;
+            document.getElementById('player-tips').innerText = ex.tips || 'Keine speziellen Ausführungstipps hinterlegt.';
+
+            // Image Setup
+            const imgEl = document.getElementById('player-img');
+            imgEl.src = ex.img || 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80';
+            imgEl.classList.remove('hidden');
+
+            // Video Setup
+            const iframeVideo = document.getElementById('player-video');
+            const localVideo = document.getElementById('player-local-video');
+            iframeVideo.classList.add('hidden');
+            localVideo.classList.add('hidden');
+
+            if (ex.video) {
+                if (ex.video.startsWith('data:video')) {
+                    localVideo.src = ex.video;
+                } else {
+                    iframeVideo.src = ex.video;
+                }
+            }
+
+            document.getElementById('media-toggle-label').innerText = "Video Zeigen";
+
+            // Timer Setup
+            playerSecondsLeft = ex.duration;
+            isPlayerPaused = false;
+            updateTimerDisplay();
+            updatePlayerInfo();
+
+            // Start Timer Count
+            playerTimerInterval = setInterval(handleTimerTick, 1000);
+            updatePlayPauseButton();
+        }
+
+        function handleTimerTick() {
+            if (isPlayerPaused) return;
+
+            if (playerSecondsLeft > 0) {
+                playerSecondsLeft--;
+                updateTimerDisplay();
+            } else {
+                playChimeSound();
+                nextExercise();
+            }
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(playerSecondsLeft / 60);
+            const secs = playerSecondsLeft % 60;
+            document.getElementById('player-timer').innerText = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+            const total = playerPlaylist[playerCurrentIndex].duration;
+            const progressPct = ((total - playerSecondsLeft) / total) * 100;
+            document.getElementById('player-progress-bar').style.width = `${progressPct}%`;
+        }
+
+        function updatePlayerInfo() {
+            document.getElementById('player-step-info').innerText = 
+                `Übung ${playerCurrentIndex + 1} von ${playerPlaylist.length}`;
+
+            const nextEx = playerPlaylist[playerCurrentIndex + 1];
+            document.getElementById('player-next-preview').innerText = 
+                nextEx ? `Nächste: ${nextEx.title}` : 'Letzte Übung!';
+        }
+
+        function togglePlayPause() {
+            isPlayerPaused = !isPlayerPaused;
+            updatePlayPauseButton();
+        }
+
+        function updatePlayPauseButton() {
+            const btn = document.getElementById('btn-play-pause');
+            btn.innerHTML = isPlayerPaused ? `<i class="fa-solid fa-play"></i>` : `<i class="fa-solid fa-pause"></i>`;
+        }
+
+        function prevExercise() {
+            if (playerCurrentIndex > 0) {
+                playerCurrentIndex--;
+                loadPlayerCurrentExercise();
+            }
+        }
+
+        function nextExercise() {
+            if (playerCurrentIndex < playerPlaylist.length - 1) {
+                playerCurrentIndex++;
+                loadPlayerCurrentExercise();
+            } else {
+                clearInterval(playerTimerInterval);
+                showToast("Praxiseinheit abgeschlossen! Gut gemacht.");
+                switchTab('home');
+            }
+        }
+
+        function togglePlayerMedia() {
+            const imgEl = document.getElementById('player-img');
+            const iframeVideo = document.getElementById('player-video');
+            const localVideo = document.getElementById('player-local-video');
+            const label = document.getElementById('media-toggle-label');
+
+            const ex = playerPlaylist[playerCurrentIndex];
+            if (!ex.video) {
+                alert("Für diese Übung ist kein Video hinterlegt.");
+                return;
+            }
+
+            if (imgEl.classList.contains('hidden')) {
+                // Switch back to Image
+                imgEl.classList.remove('hidden');
+                iframeVideo.classList.add('hidden');
+                localVideo.classList.add('hidden');
+                label.innerText = "Video Zeigen";
+            } else {
+                // Switch to Video
+                imgEl.classList.add('hidden');
+                if (ex.video.startsWith('data:video')) {
+                    localVideo.classList.remove('hidden');
+                } else {
+                    iframeVideo.classList.remove('hidden');
+                }
+                label.innerText = "Bild Zeigen";
+            }
+        }
+
+        function exitPlayer() {
+            clearInterval(playerTimerInterval);
+            switchTab('library');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-message');
+            document.getElementById('toast-text').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
